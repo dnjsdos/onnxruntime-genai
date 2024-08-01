@@ -64,6 +64,14 @@ public final class Model implements AutoCloseable {
     return new Sequences(sequencesHandle);
   }
 
+  public MultiModalProcessor getMultiModalProcessor() throws GenAIException {
+    if (nativeHandle == 0) {
+      throw new IllegalStateException("Instance has been freed and is invalid");
+    }
+    
+    return new MultiModalProcessor(createMultiModalProcessor());
+  }
+
   @Override
   public void close() {
     if (nativeHandle != 0) {
@@ -89,4 +97,6 @@ public final class Model implements AutoCloseable {
   private native void destroyModel(long modelHandle);
 
   private native long generate(long modelHandle, long generatorParamsHandle) throws GenAIException;
+
+  private native long createMultiModalProcessor() throws GenAIException;
 }
