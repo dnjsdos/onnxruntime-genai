@@ -26,6 +26,14 @@ Java_ai_onnxruntime_genai_Model_destroyModel(JNIEnv* env, jobject thiz, jlong mo
   OgaDestroyModel(model);
 }
 
+// OgaResult* OGA_API_CALL OgaGenerate(const OgaModel* model, const OgaGeneratorParams* generator_params, OgaSequences** out) {
+//   OGA_TRY
+//   auto result = Generators::Generate(*reinterpret_cast<const Generators::Model*>(model), *reinterpret_cast<const Generators::GeneratorParams*>(generator_params));
+//   *out = reinterpret_cast<OgaSequences*>(std::make_unique<Generators::TokenSequences>(std::move(result)).release());
+//   return nullptr;
+//   OGA_CATCH
+// }
+
 extern "C" JNIEXPORT jlong JNICALL
 Java_ai_onnxruntime_genai_Model_generate(JNIEnv* env, jobject thiz, jlong model_handle,
                                          jlong generator_params_handle) {
@@ -37,4 +45,17 @@ Java_ai_onnxruntime_genai_Model_generate(JNIEnv* env, jobject thiz, jlong model_
   }
 
   return reinterpret_cast<jlong>(sequences);
+}
+
+extern "C" JNIEXPORT jlong JNICALL
+java_ai_onnxruntime_genai_Model_createMultiModalProcessor(JNIEnv* env, jobject thiz,
+                                                          jlong model_handle) {
+  const OgaModel* model = reinterpret_cast<const OgaModel*>(model_handle);    
+
+  OgaMultiModalProcessor* processor = nullptr;
+  if(ThrowIfError(env, OgaCreateMultiModalProcessor(model, &processor))) {
+    return 0;
+  }
+
+  return reinterpret_cast<jlong>(processor);
 }
