@@ -32,19 +32,6 @@ Java_ai_onnxruntime_genai_MultiModalProcessor_processorProcessImage(JNIEnv* env,
 }
 
 extern "C" JNIEXPORT jlong JNICALL
-java_ai_onnxruntime_genai_Model_createMultiModalProcessor(JNIEnv* env, jobject thiz,
-                                                          jlong model_handle) {
-  const OgaModel* model = reinterpret_cast<const OgaModel*>(model_handle);    
-
-  OgaMultiModalProcessor* processor = nullptr;
-  if(ThrowIfError(env, OgaCreateMultiModalProcessor(model, &processor))) {
-    return 0;
-  }
-
-  return reinterpret_cast<jlong>(processor);
-}
-
-extern "C" JNIEXPORT jlong JNICALL
 Java_ai_onnxruntime_genai_MultiModalProcessor_createTokenizerStreamFromProcessor(JNIEnv* env, jobject thiz, jlong processor_handle) {
     OgaMultiModalProcessor* processor = reinterpret_cast<OgaMultiModalProcessor*>(processor_handle);
 
