@@ -8,16 +8,18 @@ public class MultiModalProcessor implements AutoCloseable {
         this.nativeHandle = nativeHandle;
     }
     
-    public NamedTensors processImageWithPrompt(String prompt, String imagePath) throws GenAIException {
+    public NamedTensors processImageWithPrompt(String prompt, String imagePath) throws GenAIException, Exception {
         Images image = new Images(imagePath);
-        if (nativeHandle == 0) {
-            throw new IllegalStateException("Processor has been freed and is invalid");
-        }
-        if (image.getNativeHandle() == 0) {
-            throw new IllegalStateException("Image has been freed and is invalid");
-        }
 
-        return NamedTensors(processorProcessImage(nativeHandle, prompt, image.getNativeHandle()));        
+        if (nativeHandle == 0 || image.getNativeHandle() == 0) {
+            image.close();
+            throw new IllegalStateException("Processor has been freed and is invalid");
+        }        
+
+        NamedTensors inputTensor = new NamedTensors(processorProcessImage(nativeHandle, prompt, image.getNativeHandle()));
+        image.close();
+
+        return inputTensor;
     }
 
     public TokenizerStream createTokenizerStream() throws GenAIException {
@@ -33,7 +35,7 @@ public class MultiModalProcessor implements AutoCloseable {
         if (nativeHandle != 0) {
             destroyMultiModalProcessor(nativeHandle);
             nativeHandle = 0;
-          }
+        }        
     }
     
     private native long processorProcessImage(long processorHandle, String prompt, long imageHandle) throws GenAIException;
