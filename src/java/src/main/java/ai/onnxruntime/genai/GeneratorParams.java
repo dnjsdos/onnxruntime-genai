@@ -106,6 +106,19 @@ public final class GeneratorParams implements AutoCloseable {
     setModelInput(nativeHandle, name, tensor.nativeHandle());
   }
 
+  public void setInput(NamedTensors tensor) throws GenAIException {
+    if (nativeHandle == 0) {
+      throw new IllegalStateException("Instance has been freed and is invalid");
+    }
+
+    if (tensor.getNativeHandle() == 0) {
+      throw new IllegalArgumentException("tensor has been freed and is invalid");
+    }
+
+    setInputs(nativeHandle, tensor.getNativeHandle());
+  }
+
+
   @Override
   public void close() {
     if (nativeHandle != 0) {
@@ -145,4 +158,6 @@ public final class GeneratorParams implements AutoCloseable {
   private native void setInputIDs(
       long nativeHandle, ByteBuffer tokenIds, int sequenceLength, int batchSize)
       throws GenAIException;
+  
+  private native void setInputs(long nativeHandle, long namedTensorHandle) throws GenAIException;
 }
