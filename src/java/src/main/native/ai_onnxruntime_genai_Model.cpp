@@ -26,14 +26,6 @@ Java_ai_onnxruntime_genai_Model_destroyModel(JNIEnv* env, jobject thiz, jlong mo
   OgaDestroyModel(model);
 }
 
-// OgaResult* OGA_API_CALL OgaGenerate(const OgaModel* model, const OgaGeneratorParams* generator_params, OgaSequences** out) {
-//   OGA_TRY
-//   auto result = Generators::Generate(*reinterpret_cast<const Generators::Model*>(model), *reinterpret_cast<const Generators::GeneratorParams*>(generator_params));
-//   *out = reinterpret_cast<OgaSequences*>(std::make_unique<Generators::TokenSequences>(std::move(result)).release());
-//   return nullptr;
-//   OGA_CATCH
-// }
-
 extern "C" JNIEXPORT jlong JNICALL
 Java_ai_onnxruntime_genai_Model_generate(JNIEnv* env, jobject thiz, jlong model_handle,
                                          jlong generator_params_handle) {
