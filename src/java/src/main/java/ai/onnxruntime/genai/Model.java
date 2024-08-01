@@ -69,7 +69,7 @@ public final class Model implements AutoCloseable {
       throw new IllegalStateException("Instance has been freed and is invalid");
     }
     
-    return new MultiModalProcessor(createMultiModalProcessor());
+    return new MultiModalProcessor(createMultiModalProcessor(nativeHandle));
   }
 
   @Override
@@ -98,5 +98,5 @@ public final class Model implements AutoCloseable {
 
   private native long generate(long modelHandle, long generatorParamsHandle) throws GenAIException;
 
-  private native long createMultiModalProcessor() throws GenAIException;
+  private native long createMultiModalProcessor(long modelHandle) throws GenAIException;
 }
