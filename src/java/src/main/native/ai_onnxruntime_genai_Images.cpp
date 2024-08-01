@@ -10,7 +10,7 @@ using namespace Helpers;
 
 extern "C" JNIEXPORT jlong JNICALL
 Java_ai_onnxruntime_genai_Images_loadImage(JNIEnv* env, jobject thiz, jstring image_path) {
-    Cstring c_image_path{env, image_path};
+    CString c_image_path{env, image_path};    
 
     OgaImages* images = nullptr;
     if(ThrowIfError(OgaLoadImage(c_image_path, &images))) {
