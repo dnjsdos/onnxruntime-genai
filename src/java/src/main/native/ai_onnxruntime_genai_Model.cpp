@@ -40,12 +40,11 @@ Java_ai_onnxruntime_genai_Model_generate(JNIEnv* env, jobject thiz, jlong model_
 }
 
 extern "C" JNIEXPORT jlong JNICALL
-java_ai_onnxruntime_genai_Model_createMultiModalProcessor(JNIEnv* env, jobject thiz,
-                                                          jlong model_handle) {
+Java_ai_onnxruntime_genai_Model_createMultiModalProcessor(JNIEnv* env, jobject thiz, jlong model_handle) {
   const OgaModel* model = reinterpret_cast<const OgaModel*>(model_handle);    
 
   OgaMultiModalProcessor* processor = nullptr;
-  if(ThrowIfError(env, OgaCreateMultiModalProcessor(model, &processor))) {
+  if (ThrowIfError(env, OgaCreateMultiModalProcessor(model, &processor))) {
     return 0;
   }
 
