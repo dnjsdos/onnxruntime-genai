@@ -64,7 +64,7 @@ public final class Model implements AutoCloseable {
     return new Sequences(sequencesHandle);
   }
 
-  public MultiModalProcessor getMultiModalProcessor() throws GenAIException {
+  public MultiModalProcessor createMultiModalProcessor() throws GenAIException {
     if (nativeHandle == 0) {
       throw new IllegalStateException("Instance has been freed and is invalid");
     }

@@ -141,7 +141,7 @@ final class GenAI {
       // We only need to load the JNI library as it will load the GenAI native library and ORT
       // native library
       // via the library's dependencies.
-      if (library == GENAI_JNI_LIBRARY_NAME) {
+      if (library == GENAI_JNI_LIBRARY_NAME || library == GENAI_LIBRARY_NAME) {
         logger.log(Level.INFO, "Loading native library '" + library + "'");
         System.loadLibrary(library);
       }
